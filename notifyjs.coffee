@@ -8,23 +8,31 @@ class Rp_notifyJs extends Notify
     notify.options.body=body
     if options then notify.options=_.extend(notify.options,options)
 
-
-
-
   _permissionDenied=()->
     console.warn("Permission has been denied by the user")
     return
 
-  show:(title,body,options)->
+  setPermissions:()->
+    if Notify.isSupported()
+      Notify.requestPermission()
+
+  needsPermission:()->
+    Notify.needsPermission
+
+  notifyWhen:true
+
+
+  show:(title,body,overideCheck=@notifyWhen,options)->
     that=@
-    unless Notify.needsPermission
-      _doNotify(that,title,body,options)
-      super
-    else if Notify.isSupported()
-      Notify.requestPermission ()->
+    if overideCheck
+      unless Notify.needsPermission
         _doNotify(that,title,body,options)
         super
-      ,_permissionDenied
+      else if Notify.isSupported()
+        Notify.requestPermission ()->
+          _doNotify(that,title,body,options)
+          super
+        ,_permissionDenied
     return
 
 
