@@ -15,7 +15,7 @@ Package.onUse(function(api) {
   api.use('coffeescript');
   api.versionsFrom('1.1.0.2');
   api.addFiles('lib/notify.js/notify.js','client');
-  api.addFiles('public/img/Reminder-ring-WF.png','client');
+  api.addAssets('public/img/Reminder-ring-WF.png','client');
   api.addFiles('notifyjs.coffee','client');
   api.export('Rp_notify_js');
 });
